@@ -6,10 +6,15 @@
 Programs like Eclipse, IntelliJ, WebStorm, and other IDEs have convienient project launchers that allow you to quickly choose the project on startup. Frequently switching projects in Sublime Text is fairly slow. Sublime Launcher aims to remedy this.
 
 - Create new projects easily
-- Fill new project directory with pre-defined template content
-- Define your own project templates
 - Easily load existing projects into Sublime Launcher
+- Fill new projects with content using templates
+- Create your own templates easily
 - Sublime Launcher adds absolutely no metadata/files in the project directory
+
+For this to work you must add the following to your Sublime User Settings.
+
+    "remember_open_files": false,
+    "hot_exit": false
 
 ![Sublime Launcher Main Window Picture](http://i.imgur.com/FB5TuOb.png)
 
