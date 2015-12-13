@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -14,6 +16,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.DefaultComboBoxModel;
 
 public class ViewAddNew extends JFrame {
@@ -21,11 +24,37 @@ public class ViewAddNew extends JFrame {
 	private JPanel contentPane;
 	private JTextField textName;
 	private JTextField textLocation;
+	private JComboBox comboBox;
 	private FileSystem fileSystem = FileSystem.getInstance();
 	private File file;
 	private ViewAddNew view = this;
 
 	public ViewAddNew(ProjectContainer projects) {
+		
+		// Load template information and create the
+		// JComboBox model
+		
+		File templates = fileSystem.getTemplateLocation();
+		
+		ArrayList<String> children = new ArrayList<>();
+		
+		for (String s : templates.list()) {
+			System.out.println("Listing: " + s);
+			children.add(s);
+		}
+		
+		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+		ArrayList<Template> temps = new ArrayList<>();
+		
+		model.addElement("No Template / Blank Project");
+		
+		for (String c: children) {
+			File child = new File(templates.getAbsolutePath() + File.separator + c);
+			temps.add(new Template(child.getName(), child.getAbsolutePath()));
+			model.addElement(child.getName() + " - " + child.getAbsolutePath());
+		}
+		
+		// Set to default system UI
 		
 		try {
 			UIManager.setLookAndFeel(
@@ -82,12 +111,32 @@ public class ViewAddNew extends JFrame {
 		JButton btnSave = new JButton("Create and Save");
 		btnSave.addActionListener(action -> {
 			
+			int selected = comboBox.getSelectedIndex();
+			
 			File saveLocation = new File(file.getAbsolutePath() + File.separator + textName.getText());
 			
-			try {
-				Files.createDirectories(Paths.get(saveLocation.getAbsolutePath()));
-			} catch (Exception e) {
-				e.printStackTrace();
+//			try {
+//				Files.createDirectories(Paths.get(saveLocation.getAbsolutePath()));
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+			
+			// If the selection is zero, they chose no template.
+			if (selected != 0) {
+				
+				// Template storage is always one less than the index
+				// because the first option in the JComboBox model is
+				// an option for none.
+				Template template = temps.get(selected - 1);
+				
+				try {
+					
+					FileUtilities.copyDirectory(template.getLocation(), saveLocation);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 			}
 			
 			projects.add(new Project(textName.getText(), saveLocation.getAbsolutePath()));
@@ -109,8 +158,7 @@ public class ViewAddNew extends JFrame {
 		lblProjectTemplate.setBounds(10, 96, 98, 14);
 		contentPane.add(lblProjectTemplate);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Currently Unsupported"}));
+		comboBox = new JComboBox(model);
 		comboBox.setBounds(146, 89, 358, 28);
 		contentPane.add(comboBox);
 		

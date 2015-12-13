@@ -18,6 +18,7 @@ public class FileSystem {
 	
 	private File programLocation;
 	private File stoneFile;
+	private File templateLocation;
 	private SublimeContainer sublimes;
 	private ProjectContainer projects;
 	
@@ -41,8 +42,9 @@ public class FileSystem {
 		
 		if (os.contains("win")) {
 			
-			programLocation = new File("C:\\Users\\" + user + "\\AppData\\Roaming\\Elsea\\SublimeLauncher");
-			stoneFile       = new File(programLocation.getAbsolutePath() + "\\info.stone");
+			programLocation  = new File("C:\\Users\\" + user + "\\AppData\\Roaming\\Elsea\\SublimeLauncher");
+			templateLocation = new File(programLocation.getAbsolutePath() + "\\Templates");
+			stoneFile        = new File(programLocation.getAbsolutePath() + "\\program.stone");
 			
 		} else {
 			System.out.println("Running on currently unsupported system.");
@@ -61,10 +63,8 @@ public class FileSystem {
 				
 				g
 					.group("sublimes")
-						.property("testSublime", "C:\\Yes")
 					.end()
 					.group("projects")
-						.property("p1", "C:\\")
 					.end();
 				
 				Groups.get().write(g).to(stoneFile);
@@ -116,6 +116,10 @@ public class FileSystem {
 		}
 		
 		return true;
+	}
+	
+	public File getTemplateLocation() {
+		return templateLocation;
 	}
 
 }
