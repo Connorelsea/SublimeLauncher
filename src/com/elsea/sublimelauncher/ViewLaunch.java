@@ -142,6 +142,8 @@ public class ViewLaunch extends JFrame {
 			e.printStackTrace();
 		}
 		
+		setIconImage(image.getImage());
+		
 		JLabel lblNewLabel = new JLabel(image);
 		lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panelLogo.add(lblNewLabel);
@@ -157,23 +159,14 @@ public class ViewLaunch extends JFrame {
 		JButton btn_new = new JButton("Create New Project");
 		btn_new.addActionListener(action -> {
 			
+			ViewAddNew van = new ViewAddNew(projects);
+			van.setVisible(true);
+			
 		});
 		panelButtons.add(btn_new);
 		btn_new.setPreferredSize(new Dimension(220, 30));
 		btn_new.setMinimumSize(new Dimension(220, 30));
 		btn_new.setMaximumSize(new Dimension(220, 30));
-		
-		Component rigidArea_3 = Box.createRigidArea(new Dimension(10, 10));
-		panelButtons.add(rigidArea_3);
-		
-		JButton btn_newTemplate = new JButton("Create New From Template");
-		btn_newTemplate.addActionListener(action -> {
-			
-		});
-		btn_newTemplate.setPreferredSize(new Dimension(220, 30));
-		btn_newTemplate.setMinimumSize(new Dimension(220, 30));
-		btn_newTemplate.setMaximumSize(new Dimension(220, 30));
-		panelButtons.add(btn_newTemplate);
 		
 		Component rigidArea_1 = Box.createRigidArea(new Dimension(10, 10));
 		panelButtons.add(rigidArea_1);
