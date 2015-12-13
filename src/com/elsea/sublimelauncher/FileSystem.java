@@ -19,9 +19,18 @@ public class FileSystem {
 	private File programLocation;
 	private File stoneFile;
 	private SublimeContainer sublimes;
-	private ProjectContainer projects; 
+	private ProjectContainer projects;
 	
-	public FileSystem(SublimeContainer sublimes, ProjectContainer projects) {
+	private static FileSystem instance;
+	
+	public static FileSystem createInstance(SublimeContainer sublimes, ProjectContainer projects) {
+		return instance = new FileSystem(sublimes, projects);
+	}
+	public static FileSystem getInstance() {
+		return instance;
+	}
+	
+	private FileSystem(SublimeContainer sublimes, ProjectContainer projects) {
 		this.sublimes = sublimes;
 		this.projects = projects;
 	}
@@ -66,6 +75,18 @@ public class FileSystem {
 			
 		}
 		
+	}
+	
+	public boolean save() {
+		
+		Group g = new Group();
+		
+		g.addChild(sublimes.generateGroup());
+		g.addChild(projects.generateGroup());
+		
+		Groups.get().write(g).to(stoneFile);
+		
+		return true;
 	}
 	
 	public boolean load() {

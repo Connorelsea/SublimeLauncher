@@ -1,8 +1,5 @@
 package com.elsea.sublimelauncher;
 
-import java.nio.file.spi.FileSystemProvider;
-import java.util.ArrayList;
-
 public class Program {
 	
 	private ProjectContainer projects;
@@ -20,13 +17,13 @@ public class Program {
 		
 		projects = new ProjectContainer();
 		
-		fileSystem = new FileSystem(sublimes, projects);
+		fileSystem = FileSystem.createInstance(sublimes, projects);
 		
 		if (!fileSystem.load()) {
 			System.err.println("Unable to load Sublime Launcher");
 		}
 		
-		new ViewLaunch(projects, sublimes).setVisible(true);
+		new ViewLaunch(projects, sublimes, fileSystem).setVisible(true);
 		
 //		for (Project project : projects) {
 //			System.out.println(project.getLocation().toString());

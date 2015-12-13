@@ -41,14 +41,17 @@ public class ViewLaunch extends JFrame {
 	
 	private ProjectContainer projects;
 	private SublimeContainer sublimes;
+	private FileSystem       fileSystem;
 	private ViewLaunch       view = this;
 	
 	private JPanel contentPane;
 	private DefaultListModel<Project> model;
 	
-	public ViewLaunch(ProjectContainer projects, SublimeContainer sublimes) {
-		this.projects = projects;
-		this.sublimes = sublimes;
+	public ViewLaunch(ProjectContainer projects, SublimeContainer sublimes, FileSystem fileSystem) {
+		
+		this.projects   = projects;
+		this.sublimes   = sublimes;
+		this.fileSystem = fileSystem;
 		
 		model = projects.getModel();
 		
@@ -72,6 +75,9 @@ public class ViewLaunch extends JFrame {
 		contentPane.add(panelProjects, BorderLayout.WEST);
 		
 		JList list = new JList(model);
+		list.setPreferredSize(new Dimension(300, 300));
+		list.setMinimumSize(new Dimension(300, 300));
+		list.setMaximumSize(new Dimension(300, 300));
 		list.setCellRenderer(new FileListCellRenderer());
 		list.setBackground(Color.WHITE);
 		
@@ -174,12 +180,17 @@ public class ViewLaunch extends JFrame {
 		
 		JButton btn_existing = new JButton("Add Existing Project");
 		btn_existing.addActionListener(action -> {
-		
+			
+			ViewAddExisting vae = new ViewAddExisting(projects);
+			vae.setVisible(true);
+			
 		});
 		panelButtons.add(btn_existing);
 		btn_existing.setPreferredSize(new Dimension(220, 30));
 		btn_existing.setMinimumSize(new Dimension(220, 30));
 		btn_existing.setMaximumSize(new Dimension(220, 30));
+		
+		setLocationRelativeTo(null);
 	}
 
 }

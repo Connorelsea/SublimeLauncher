@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 
+import com.elsea.stone.groups.Group;
+
 public class ProjectContainer {
 	
 	private ArrayList<Project> projects;
@@ -12,6 +14,19 @@ public class ProjectContainer {
 	public ProjectContainer() {
 		projects = new ArrayList<>();
 		model    = new DefaultListModel<>();
+	}
+	
+	public Group generateGroup() {
+		
+		Group g = new Group("projects");
+		
+		for (Project project : projects) {
+			g.property(project.getName(), project.getLocation().getAbsolutePath());
+		}
+		
+		g.end();
+		
+		return g;
 	}
 	
 	public void add(Project p) {

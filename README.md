@@ -5,6 +5,7 @@
 
 Programs like Eclipse, IntelliJ, WebStorm, and other IDEs have convienient project launchers that allow you to quickly choose the project on startup. Frequently switching projects in Sublime Text is fairly slow. Sublime Launcher aims to remedy this.
 
+![Sublime Launcher Main Window Picture](http://i.imgur.com/FB5TuOb.png)
 
 ## Build
 

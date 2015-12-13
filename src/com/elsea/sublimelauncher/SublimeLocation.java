@@ -10,6 +10,7 @@ import java.io.IOException;
  */
 public class SublimeLocation {
 	
+	private String name;
 	private File file;
 	
 	/**
@@ -52,6 +53,14 @@ public class SublimeLocation {
 	
 	public File getFile() {
 		return file;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

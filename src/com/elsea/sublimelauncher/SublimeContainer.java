@@ -3,6 +3,8 @@ package com.elsea.sublimelauncher;
 import java.io.File;
 import java.util.ArrayList;
 
+import com.elsea.stone.groups.Group;
+
 /**
  * SublimeContainer
  * 
@@ -13,6 +15,19 @@ public class SublimeContainer {
 	
 	private ArrayList<SublimeLocation> locations;
 	private ArrayList<String> possibleLocations;
+	
+	public Group generateGroup() {
+		
+		Group g = new Group("sublimes");
+		
+		for (SublimeLocation location: locations) {
+			g.property(location.getName(), location.getFile().getAbsolutePath());
+		}
+		
+		g.end();
+		
+		return g;
+	}
 	
 	/**
 	 * Locates all occurences and versions of the Sublime Text program
