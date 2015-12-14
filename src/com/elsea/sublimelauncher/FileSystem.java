@@ -104,7 +104,13 @@ public class FileSystem {
 		
 		
 		for (Element e : elements) {
-			projects.add(new Project(e.getName(), e.getCurrentValue()));
+			
+			String   name  = e.getName();
+			String[] props = e.getCurrentValue().split(":");
+			String   path  = props[0];
+			String   icon  = props[1];
+			
+			projects.add(new Project(name, path, icon));
 		}
 		
 		List<Element> sbls = g.search().filter(p ->

@@ -21,7 +21,12 @@ public class ProjectContainer {
 		Group g = new Group("projects");
 		
 		for (Project project : projects) {
-			g.property(project.getName(), project.getLocation().getAbsolutePath());
+			
+			String name     = project.getName();
+			String property = project.getLocation().getAbsolutePath() +
+							  ":" + project.getIcon().getAbsolutePath();
+			
+			g.property(name, property);
 		}
 		
 		g.end();

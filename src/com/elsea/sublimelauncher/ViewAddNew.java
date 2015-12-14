@@ -15,8 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 
 public class ViewAddNew extends JFrame {
@@ -28,6 +31,7 @@ public class ViewAddNew extends JFrame {
 	private FileSystem fileSystem = FileSystem.getInstance();
 	private File file;
 	private ViewAddNew view = this;
+	private JTextField textIcon;
 
 	public ViewAddNew(ProjectContainer projects) {
 		
@@ -38,15 +42,21 @@ public class ViewAddNew extends JFrame {
 		
 		ArrayList<String> children = new ArrayList<>();
 		
-		for (String s : templates.list()) {
-			System.out.println("Listing: " + s);
-			children.add(s);
+		// If the user has templates, catalog them
+		if (templates.list() != null) {
+			
+			for (String s : templates.list()) {
+				children.add(s);
+			}
+			
 		}
 		
 		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
 		ArrayList<Template> temps = new ArrayList<>();
 		
 		model.addElement("No Template / Blank Project");
+		
+		// Create template menu
 		
 		for (String c: children) {
 			File child = new File(templates.getAbsolutePath() + File.separator + c);
@@ -65,7 +75,7 @@ public class ViewAddNew extends JFrame {
 		
 		setTitle("Add New Project");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 530, 224);
+		setBounds(100, 100, 530, 255);
 		contentPane = new JPanel();
 		contentPane.setBorder(null);
 		setContentPane(contentPane);
@@ -105,7 +115,7 @@ public class ViewAddNew extends JFrame {
 		contentPane.add(btnFolder);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(10, 133, 494, 2);
+		separator.setBounds(10, 168, 494, 2);
 		contentPane.add(separator);
 		
 		JButton btnSave = new JButton("Create and Save");
@@ -114,12 +124,6 @@ public class ViewAddNew extends JFrame {
 			int selected = comboBox.getSelectedIndex();
 			
 			File saveLocation = new File(file.getAbsolutePath() + File.separator + textName.getText());
-			
-//			try {
-//				Files.createDirectories(Paths.get(saveLocation.getAbsolutePath()));
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
 			
 			// If the selection is zero, they chose no template.
 			if (selected != 0) {
@@ -139,19 +143,25 @@ public class ViewAddNew extends JFrame {
 				
 			}
 			
-			projects.add(new Project(textName.getText(), saveLocation.getAbsolutePath()));
+			boolean exists = new File(textIcon.getText()).exists();
+			
+			if (textIcon.getText().trim().equals("") || !exists) {
+				textIcon.setText("None");
+			}
+			
+			projects.add(new Project(textName.getText(), textLocation.getText(), textIcon.getText()));
 			fileSystem.save();
 			
 			view.dispose();
 		});
-		btnSave.setBounds(348, 146, 156, 28);
+		btnSave.setBounds(348, 181, 156, 28);
 		contentPane.add(btnSave);
 		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(action -> {
 			view.dispose();
 		});
-		btnCancel.setBounds(10, 146, 106, 28);
+		btnCancel.setBounds(10, 181, 106, 28);
 		contentPane.add(btnCancel);
 		
 		JLabel lblProjectTemplate = new JLabel("Project Template");
@@ -161,6 +171,32 @@ public class ViewAddNew extends JFrame {
 		comboBox = new JComboBox(model);
 		comboBox.setBounds(146, 89, 358, 28);
 		contentPane.add(comboBox);
+		
+		textIcon = new JTextField();
+		textIcon.setColumns(10);
+		textIcon.setBounds(146, 129, 242, 28);
+		contentPane.add(textIcon);
+		
+		JLabel lblProjectIconpx = new JLabel("Project Icon (50px)");
+		lblProjectIconpx.setBounds(10, 136, 98, 14);
+		contentPane.add(lblProjectIconpx);
+		
+		JButton btnChooseIcon = new JButton("Choose Icon");
+		btnChooseIcon.addActionListener(action -> {
+			
+			FileFilter imageFilter = new FileNameExtensionFilter(
+				    "Image files", ImageIO.getReaderFileSuffixes());
+			
+			final JFileChooser fc = new JFileChooser();
+		    fc.addChoosableFileFilter(imageFilter);
+		    fc.setAcceptAllFileFilterUsed(false);
+		    int file = fc.showOpenDialog(view);
+		    
+		    textIcon.setText(fc.getSelectedFile().getAbsolutePath());
+		    
+		});
+		btnChooseIcon.setBounds(398, 129, 106, 28);
+		contentPane.add(btnChooseIcon);
 		
 		setLocationRelativeTo(null);
 	}

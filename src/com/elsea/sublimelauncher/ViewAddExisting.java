@@ -1,8 +1,8 @@
 package com.elsea.sublimelauncher;
 
-import java.awt.EventQueue;
 import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class ViewAddExisting extends JFrame {
 
@@ -20,6 +22,7 @@ public class ViewAddExisting extends JFrame {
 	private FileSystem fileSystem = FileSystem.getInstance();
 	private File file;
 	private ViewAddExisting view = this;
+	private JTextField textIcon;
 
 	public ViewAddExisting(ProjectContainer projects) {
 		
@@ -32,7 +35,7 @@ public class ViewAddExisting extends JFrame {
 		
 		setTitle("Add Existing Project");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 180);
+		setBounds(100, 100, 450, 217);
 		contentPane = new JPanel();
 		contentPane.setBorder(null);
 		setContentPane(contentPane);
@@ -72,24 +75,50 @@ public class ViewAddExisting extends JFrame {
 		contentPane.add(btnFolder);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(10, 90, 414, 2);
+		separator.setBounds(10, 128, 414, 2);
 		contentPane.add(separator);
 		
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(action -> {
-			projects.add(new Project(textName.getText(), textLocation.getText()));
+			projects.add(new Project(textName.getText(), textLocation.getText(), textIcon.getText()));
 			fileSystem.save();
 			view.dispose();
 		});
-		btnSave.setBounds(318, 103, 106, 28);
+		btnSave.setBounds(318, 141, 106, 28);
 		contentPane.add(btnSave);
 		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(action -> {
 			view.dispose();
 		});
-		btnCancel.setBounds(10, 103, 106, 28);
+		btnCancel.setBounds(10, 141, 106, 28);
 		contentPane.add(btnCancel);
+		
+		JLabel lblProjectIcon = new JLabel("Project Icon (50px)");
+		lblProjectIcon.setBounds(10, 96, 98, 14);
+		contentPane.add(lblProjectIcon);
+		
+		textIcon = new JTextField();
+		textIcon.setColumns(10);
+		textIcon.setBounds(118, 89, 190, 28);
+		contentPane.add(textIcon);
+		
+		JButton btnChooseIcon = new JButton("Choose Icon");
+		btnChooseIcon.addActionListener(action -> {
+			
+			FileFilter imageFilter = new FileNameExtensionFilter(
+				    "Image files", ImageIO.getReaderFileSuffixes());
+			
+			final JFileChooser fc = new JFileChooser();
+		    fc.addChoosableFileFilter(imageFilter);
+		    fc.setAcceptAllFileFilterUsed(false);
+		    int file = fc.showOpenDialog(view);
+		    
+		    textIcon.setText(fc.getSelectedFile().getAbsolutePath());
+			
+		});
+		btnChooseIcon.setBounds(318, 89, 106, 28);
+		contentPane.add(btnChooseIcon);
 		
 		setLocationRelativeTo(null);
 	}
