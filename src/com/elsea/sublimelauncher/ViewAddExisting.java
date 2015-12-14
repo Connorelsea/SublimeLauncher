@@ -80,6 +80,13 @@ public class ViewAddExisting extends JFrame {
 		
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(action -> {
+			
+			boolean exists = new File(textIcon.getText()).exists();
+			
+			if (textIcon.getText().trim().equals("") || !exists) {
+				textIcon.setText("None");
+			}
+			
 			projects.add(new Project(textName.getText(), textLocation.getText(), textIcon.getText()));
 			fileSystem.save();
 			view.dispose();

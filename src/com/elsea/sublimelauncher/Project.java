@@ -1,25 +1,50 @@
 package com.elsea.sublimelauncher;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Project {
+	
 	private String  name;
 	private File    location;
-	private File    icon;
-	private boolean hasIcon;
+	
+	private BufferedImage bufferedIcon;
+	private File   		  icon;
+	private boolean       hasIcon;
 	
 	public Project(String name, String path, String iconPath) {
 		
 		this.setName(name);
 		this.setLocation(new File(path));
 		
-		if (iconPath.equals("none")) {
+		if (iconPath.equals("None")) {
 			hasIcon = false;
 		} else {
 			hasIcon = true;
 			this.setIcon(new File(iconPath));
+			loadIcon();
 		}
 		
+	}
+	
+	public void loadIcon() {
+		
+		BufferedImage bi = null;
+		
+		try {
+			bi = ImageIO.read(getIcon());
+			bufferedIcon = bi;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public BufferedImage getBufferedIcon() {
+		return bufferedIcon;
 	}
 
 	public File getLocation() {

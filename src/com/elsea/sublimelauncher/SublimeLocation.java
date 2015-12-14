@@ -31,6 +31,9 @@ public class SublimeLocation {
 	 * @return Whether or not the location was loaded successfully
 	 */
 	public boolean load(String locationToOpen) {
+		
+		System.out.println("OPENING: " + locationToOpen);
+		
 		try {
 			new ProcessBuilder(file.getAbsolutePath(), locationToOpen).start();
 			return true;

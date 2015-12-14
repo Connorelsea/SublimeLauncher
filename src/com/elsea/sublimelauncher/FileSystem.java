@@ -106,7 +106,7 @@ public class FileSystem {
 		for (Element e : elements) {
 			
 			String   name  = e.getName();
-			String[] props = e.getCurrentValue().split(":");
+			String[] props = e.getCurrentValue().split("#<#>#");
 			String   path  = props[0];
 			String   icon  = props[1];
 			

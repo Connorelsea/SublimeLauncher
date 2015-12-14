@@ -141,6 +141,14 @@ public class ViewAddNew extends JFrame {
 					e.printStackTrace();
 				}
 				
+			} else {
+				
+				try {
+					Files.createDirectory(Paths.get(saveLocation.getAbsolutePath()));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 			}
 			
 			boolean exists = new File(textIcon.getText()).exists();
@@ -149,7 +157,14 @@ public class ViewAddNew extends JFrame {
 				textIcon.setText("None");
 			}
 			
-			projects.add(new Project(textName.getText(), textLocation.getText(), textIcon.getText()));
+			String location = textLocation.getText() + File.separator + textName.getText();
+			
+			System.out.println("CREATING...");
+			System.out.println("name: " + textName.getText());
+			System.out.println("location: " + location);
+			System.out.println("icon: " + textIcon.getText());
+			
+			projects.add(new Project(textName.getText(), location, textIcon.getText()));
 			fileSystem.save();
 			
 			view.dispose();

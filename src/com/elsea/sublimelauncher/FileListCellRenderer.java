@@ -68,22 +68,9 @@ public class FileListCellRenderer implements ListCellRenderer {
 		
 		// Get Icon
 		
-		BufferedImage bi = null;
-		ImageIcon image  = null;
-		
-		try {
-			System.out.println(project.getIcon().getAbsolutePath());
-			bi = ImageIO.read(new File(project.getIcon().getAbsolutePath()));
-			//bi = ImageIO.read(project.getIcon());
-			image = new ImageIcon(bi);
-		} catch (IOException e) {
-			project.setHasIcon(false);
-			e.printStackTrace();
-		}
-		
 		if (project.hasIcon()) {
 			
-			final Image img = image.getImage();
+			System.out.println("here");
 			
 			// Icon Panel
 			
@@ -94,7 +81,7 @@ public class FileListCellRenderer implements ListCellRenderer {
 					
 					int x = (60 / 2) - (50 / 2);
 					int y = (panel_right.getHeight() / 2) - (50 / 2);
-					g.drawImage(img, x, y, 50, 50, null);
+					g.drawImage(project.getBufferedIcon(), x, y, 50, 50, null);
 					
 				}
 			};
