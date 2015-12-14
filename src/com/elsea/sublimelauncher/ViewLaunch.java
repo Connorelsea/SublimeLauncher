@@ -101,6 +101,9 @@ public class ViewLaunch extends JFrame {
 		});
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setPreferredSize(new Dimension(300, 300));
+		scrollPane.setMinimumSize(new Dimension(300, 300));
+		scrollPane.setMaximumSize(new Dimension(300, 300));
 		scrollPane.setBorder(null);
 		scrollPane.setViewportView(list);
 		
