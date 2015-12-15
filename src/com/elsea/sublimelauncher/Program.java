@@ -1,7 +1,6 @@
 package com.elsea.sublimelauncher;
 
 import java.awt.EventQueue;
-import java.lang.reflect.InvocationTargetException;
 
 public class Program {
 	
@@ -37,6 +36,8 @@ public class Program {
 		if (!fileSystem.load()) {
 			System.err.println("Unable to load Sublime Launcher");
 		}
+		
+		System.out.println("File System done");
 		
 		long timeViewLaunch = System.currentTimeMillis();
 		

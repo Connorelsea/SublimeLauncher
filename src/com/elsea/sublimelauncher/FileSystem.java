@@ -1,14 +1,13 @@
 package com.elsea.sublimelauncher;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.DefaultListModel;
-import javax.swing.ListModel;
+import javax.imageio.ImageIO;
 
 import com.elsea.stone.groups.Element;
 import com.elsea.stone.groups.Group;
@@ -19,6 +18,7 @@ public class FileSystem {
 	private File programLocation;
 	private File stoneFile;
 	private File templateLocation;
+	private File sublimeImage;
 	private SublimeContainer sublimes;
 	private ProjectContainer projects;
 	
@@ -46,6 +46,7 @@ public class FileSystem {
 			programLocation  = new File("C:\\Users\\" + user + "\\AppData\\Roaming\\Elsea\\SublimeLauncher");
 			templateLocation = new File(programLocation.getAbsolutePath() + "\\Templates");
 			stoneFile        = new File(programLocation.getAbsolutePath() + "\\program.stone");
+			sublimeImage     = new File(programLocation.getAbsolutePath() + File.separator + "sublime.png");
 			
 		} else {
 			System.out.println("Running on currently unsupported system.");
@@ -100,6 +101,24 @@ public class FileSystem {
 		determinePath();
 		checkFixPath();
 		
+		// Dump image resource from inside jar to outside jar
+		// Loading resource on render takes way too long. Better
+		// to have long file load (from this) on first run than
+		// long load during render every time.
+		
+		BufferedImage bi;
+		
+		if (!sublimeImage.exists()) {
+			
+			try {
+				bi = ImageIO.read(ViewLaunch.class.getResource("/sublime.png"));
+				ImageIO.write(bi, "png", new File(programLocation.getAbsolutePath() + File.separator + "sublime.png"));
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+		}
+		
 		// Load projects
 		
 		long stoneStart = System.currentTimeMillis();
@@ -147,6 +166,10 @@ public class FileSystem {
 	
 	public File getTemplateLocation() {
 		return templateLocation;
+	}
+	
+	public File getSublimeImageLocation() {
+		return sublimeImage;
 	}
 
 }

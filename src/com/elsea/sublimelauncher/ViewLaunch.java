@@ -10,44 +10,26 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ListModel;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Dimension;
 
-import javax.swing.border.LineBorder;
-import javax.swing.event.ListDataListener;
-
-import java.awt.SystemColor;
-import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
 import javax.swing.JButton;
-import java.awt.Font;
 import java.awt.Component;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.ActionEvent;
 
 public class ViewLaunch extends JFrame {
+	private static final long serialVersionUID = 1L;
 	
-	private ProjectContainer projects;
-	private SublimeContainer sublimes;
-	private FileSystem       fileSystem;
-	private ViewLaunch       view = this;
+	private ViewLaunch view = this;
 	private JLabel lblIcon;
 	
 	private JPanel contentPane;
-	private DefaultListModel<Project> model;
 	
 	private Dimension mainDim = new Dimension(300, 300);
 	private Dimension  button = new Dimension(220, 30);
@@ -56,12 +38,6 @@ public class ViewLaunch extends JFrame {
 	public ViewLaunch(ProjectContainer projects, SublimeContainer sublimes, FileSystem fileSystem) {
 	
 		long timeViewLaunch = System.currentTimeMillis();
-	
-		this.projects   = projects;
-		this.sublimes   = sublimes;
-		this.fileSystem = fileSystem;
-		
-		model = projects.getModel();
 		
 		try {
 			UIManager.setLookAndFeel(
@@ -82,7 +58,7 @@ public class ViewLaunch extends JFrame {
 		panelProjects.setBackground(Color.WHITE);
 		contentPane.add(panelProjects, BorderLayout.WEST);
 		
-		JList list = new JList(model);
+		JList list = new JList(projects.getModel());
 		list.setPreferredSize(mainDim);
 		list.setMinimumSize(mainDim);
 		list.setMaximumSize(mainDim);
@@ -143,30 +119,6 @@ public class ViewLaunch extends JFrame {
 		panelLogo.setBackground(background);
 		panelActionContainer.add(panelLogo, BorderLayout.NORTH);
 		
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				
-				BufferedImage bi = null;
-				ImageIcon image  = null;
-				
-				try {
-					bi = ImageIO.read(ViewLaunch.class.getResource("/sublime.png"));
-					image = new ImageIcon(bi);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-				
-				
-				setIconImage(image.getImage());
-				
-				lblIcon = new JLabel(image);
-				lblIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
-				panelLogo.add(lblIcon);
-				
-			}
-		});
-		
 		JPanel panelButtons = new JPanel();
 		panelButtons.setBackground(background);
 		panelActionContainer.add(panelButtons);
@@ -213,6 +165,42 @@ public class ViewLaunch extends JFrame {
 		btn_existing.setMaximumSize(button);
 		
 		setLocationRelativeTo(null);
+		
+		lblIcon = new JLabel();
+		panelLogo.add(lblIcon);
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+			
+				long imageLoadStart = System.currentTimeMillis();
+				
+				try {
+				
+					//ImageIcon image = new ImageIcon(ImageIO.read(ViewLaunch.class.getResource("/sublime.png")));
+					ImageIcon image = new ImageIcon(ImageIO.read(fileSystem.getSublimeImageLocation()));
+					
+					EventQueue.invokeLater(new Runnable() {
+					
+						public void run() {
+							lblIcon.setIcon(image);
+							lblIcon.repaint();
+							setIconImage(image.getImage());
+						}
+						
+					});
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				long imageLoadEnd = System.currentTimeMillis();
+				
+				System.out.println("IMAGE LOAD: " + (imageLoadEnd - imageLoadStart) + "ms");
+				
+			}
+		}).start();
 		
 		long timeAfterViewLaunch = System.currentTimeMillis();
 		System.out.println("Took " + (timeAfterViewLaunch - timeViewLaunch) + " for ViewLaunch -> ViewLaunch Done");

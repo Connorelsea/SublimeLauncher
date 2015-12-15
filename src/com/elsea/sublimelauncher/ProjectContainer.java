@@ -1,9 +1,7 @@
 package com.elsea.sublimelauncher;
 
 import java.util.ArrayList;
-
 import javax.swing.DefaultListModel;
-
 import com.elsea.stone.groups.Group;
 
 public class ProjectContainer {

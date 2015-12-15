@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +12,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JApplet;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -139,11 +137,10 @@ public class Project {
 				Dimension dimIcon = new Dimension(60, 60);
 				
 				panelIcon = new JPanel() {
-					
+
 					public void paint(Graphics g) {
 						
 						super.paint(g);
-						Graphics2D g2d = (Graphics2D) g;
 						
 						int x = (60 / 2) - (50 / 2);
 						int y = (60 / 2) - (50 / 2);
