@@ -55,21 +55,11 @@ public class FileSystem {
 	
 	public void checkFixPath() {
 		
-		if (!programLocation.exists() || !stoneFile.exists()) {
+		if (!programLocation.exists()) {
 			
 			try {
 				
 				Files.createDirectories(Paths.get(programLocation.getAbsolutePath()));
-				
-				Group g = new Group();
-				
-				g
-					.group("sublimes")
-					.end()
-					.group("projects")
-					.end();
-				
-				Groups.get().write(g).to(stoneFile);
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -121,45 +111,49 @@ public class FileSystem {
 		
 		// Load projects
 		
-		long stoneStart = System.currentTimeMillis();
-		
-		Group g = Groups.get().read(stoneFile);
-		
-		long stoneEnd = System.currentTimeMillis();
-		
-		System.out.println("Took " + (stoneEnd - stoneStart) + "ms to read Stone file from disk.");
-		
-		List<Element> elements = g.search().filter(p -> 
-			p.getParent() != null && p.getParent().getName().equals("projects")
-		);
+		if (stoneFile.exists()) {
+			
+			long stoneStart = System.currentTimeMillis();
+			
+			Group g = Groups.get().read(stoneFile);
+			
+			long stoneEnd = System.currentTimeMillis();
+			
+			System.out.println("Took " + (stoneEnd - stoneStart) + "ms to read Stone file from disk.");
+			
+			List<Element> elements = g.search().filter(p -> 
+				p.getParent() != null && p.getParent().getName().equals("projects")
+			);
 
-		
-		for (Element e : elements) {
 			
-			long newProjStart = System.currentTimeMillis();
+			for (Element e : elements) {
+				
+				long newProjStart = System.currentTimeMillis();
+				
+				String   name  = e.getName();
+				String[] props = e.getCurrentValue().split("#<#>#");
+				String   path  = props[0];
+				String   icon  = props[1];
+				
+				projects.add(new Project(name, path, icon));
+				
+				long newProjEnd = System.currentTimeMillis();
+				
+				System.out.println("PROJECT: \"" +  name + "\" took " + (newProjEnd - newProjStart) + "ms");
+			}
 			
-			String   name  = e.getName();
-			String[] props = e.getCurrentValue().split("#<#>#");
-			String   path  = props[0];
-			String   icon  = props[1];
+			List<Element> sbls = g.search().filter(p ->
+				p.getParent() != null && p.getParent().getName().equals("sublimes")
+			);
 			
-			projects.add(new Project(name, path, icon));
+			for (Element e : sbls) {
+				sublimes.addLocation(new File(e.getCurrentValue()));
+			}
 			
-			long newProjEnd = System.currentTimeMillis();
+			long loadEnd = System.currentTimeMillis();
+			System.out.println("Took " + (loadEnd - loadStart) + " for fileSystem.load()");
 			
-			System.out.println("PROJECT: \"" +  name + "\" took " + (newProjEnd - newProjStart) + "ms");
 		}
-		
-		List<Element> sbls = g.search().filter(p ->
-			p.getParent() != null && p.getParent().getName().equals("sublimes")
-		);
-		
-		for (Element e : sbls) {
-			sublimes.addLocation(new File(e.getCurrentValue()));
-		}
-		
-		long loadEnd = System.currentTimeMillis();
-		System.out.println("Took " + (loadEnd - loadStart) + " for fileSystem.load()");
 		
 		return true;
 	}

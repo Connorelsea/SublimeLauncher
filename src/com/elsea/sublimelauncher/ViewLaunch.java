@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.imageio.ImageIO;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -58,7 +57,7 @@ public class ViewLaunch extends JFrame {
 		panelProjects.setBackground(Color.WHITE);
 		contentPane.add(panelProjects, BorderLayout.WEST);
 		
-		JList list = new JList(projects.getModel());
+		JList<Project> list = new JList<Project>(projects.getModel());
 		list.setPreferredSize(mainDim);
 		list.setMinimumSize(mainDim);
 		list.setMaximumSize(mainDim);
