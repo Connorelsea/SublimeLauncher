@@ -37,6 +37,8 @@ public class FileSystem {
 	}
 	
 	public void determinePath() {
+		System.out.println("Determining Operating System");
+		
 		String os   = System.getProperty("os.name").toLowerCase();
 		String user = System.getProperty("user.name");
 		
@@ -52,6 +54,7 @@ public class FileSystem {
 	}
 	
 	public void checkFixPath() {
+		System.out.println("Checking Stone data file");
 		
 		if (!programLocation.exists() || !stoneFile.exists()) {
 			
@@ -79,6 +82,8 @@ public class FileSystem {
 	
 	public boolean save() {
 		
+		System.out.println("Saving Stone data file. Writing to disk.");
+		
 		Group g = new Group();
 		
 		g.addChild(sublimes.generateGroup());
@@ -91,6 +96,8 @@ public class FileSystem {
 	
 	public boolean load() {
 		
+		System.out.println("Loading program file system");
+		
 		determinePath();
 		checkFixPath();
 		
@@ -98,10 +105,13 @@ public class FileSystem {
 		
 		Group g = Groups.get().read(stoneFile);
 		
+		System.out.println("Filtering Stone projects");
+		
 		List<Element> elements = g.search().filter(p -> 
 			p.getParent() != null && p.getParent().getName().equals("projects")
 		);
 		
+		System.out.println("Processing Stone projects");
 		
 		for (Element e : elements) {
 			
@@ -113,9 +123,13 @@ public class FileSystem {
 			projects.add(new Project(name, path, icon));
 		}
 		
+		System.out.println("Filtering Stone sublimes");
+		
 		List<Element> sbls = g.search().filter(p ->
 			p.getParent() != null && p.getParent().getName().equals("sublimes")
 		);
+		
+		System.out.println("Processing Stone sublimes");
 		
 		for (Element e : sbls) {
 			sublimes.addLocation(new File(e.getCurrentValue()));

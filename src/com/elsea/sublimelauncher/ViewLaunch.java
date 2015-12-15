@@ -11,6 +11,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListModel;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
@@ -43,12 +44,17 @@ public class ViewLaunch extends JFrame {
 	private SublimeContainer sublimes;
 	private FileSystem       fileSystem;
 	private ViewLaunch       view = this;
+	private JLabel lblIcon;
 	
 	private JPanel contentPane;
 	private DefaultListModel<Project> model;
 	
+	private Dimension mainDim = new Dimension(300, 300);
+	private Dimension  button = new Dimension(220, 30);
+	private Color  background = new Color(247, 247, 247);
+	
 	public ViewLaunch(ProjectContainer projects, SublimeContainer sublimes, FileSystem fileSystem) {
-		
+	
 		this.projects   = projects;
 		this.sublimes   = sublimes;
 		this.fileSystem = fileSystem;
@@ -66,7 +72,7 @@ public class ViewLaunch extends JFrame {
 		setBounds(100, 100, 735, 433);
 		contentPane = new JPanel();
 		contentPane.setBorder(null);
-		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setLayout(new BorderLayout());
 		setContentPane(contentPane);
 		
 		JPanel panelProjects = new JPanel();
@@ -75,9 +81,9 @@ public class ViewLaunch extends JFrame {
 		contentPane.add(panelProjects, BorderLayout.WEST);
 		
 		JList list = new JList(model);
-		list.setPreferredSize(new Dimension(300, 300));
-		list.setMinimumSize(new Dimension(300, 300));
-		list.setMaximumSize(new Dimension(300, 300));
+		list.setPreferredSize(mainDim);
+		list.setMinimumSize(mainDim);
+		list.setMaximumSize(mainDim);
 		list.setCellRenderer(new FileListCellRenderer());
 		list.setBackground(Color.WHITE);
 		
@@ -101,9 +107,9 @@ public class ViewLaunch extends JFrame {
 		});
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setPreferredSize(new Dimension(300, 300));
-		scrollPane.setMinimumSize(new Dimension(300, 300));
-		scrollPane.setMaximumSize(new Dimension(300, 300));
+		scrollPane.setPreferredSize(mainDim);
+		scrollPane.setMinimumSize(mainDim);
+		scrollPane.setMaximumSize(mainDim);
 		scrollPane.setBorder(null);
 		scrollPane.setViewportView(list);
 		
@@ -115,44 +121,52 @@ public class ViewLaunch extends JFrame {
 		panelProjects.add(panelRightBorder, BorderLayout.EAST);
 		
 		JPanel panelContainer = new JPanel();
-		panelContainer.setBackground(new Color(247, 247, 247));
+		panelContainer.setBackground(background);
 		contentPane.add(panelContainer, BorderLayout.CENTER);
 		
 		JPanel panelMain = new JPanel();
 		panelContainer.add(panelMain);
-		panelMain.setBackground(new Color(247, 247, 247));
+		panelMain.setBackground(background);
 		panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS));
 		
 		Component rigidArea_2 = Box.createRigidArea(new Dimension(10, 25));
 		panelMain.add(rigidArea_2);
 		
 		JPanel panelActionContainer = new JPanel();
-		panelActionContainer.setBackground(new Color(247, 247, 247));
+		panelActionContainer.setBackground(background);
 		panelMain.add(panelActionContainer);
 		panelActionContainer.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelLogo = new JPanel();
-		panelLogo.setBackground(new Color(247, 247, 247));
+		panelLogo.setBackground(background);
 		panelActionContainer.add(panelLogo, BorderLayout.NORTH);
 		
-		BufferedImage bi = null;
-		ImageIcon image  = null;
-		
-		try {
-			bi = ImageIO.read(ViewLaunch.class.getResource("/sublime.png"));
-			image = new ImageIcon(bi);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		setIconImage(image.getImage());
-		
-		JLabel lblNewLabel = new JLabel(image);
-		lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panelLogo.add(lblNewLabel);
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				
+				BufferedImage bi = null;
+				ImageIcon image  = null;
+				
+				try {
+					bi = ImageIO.read(ViewLaunch.class.getResource("/sublime.png"));
+					image = new ImageIcon(bi);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				
+				
+				setIconImage(image.getImage());
+				
+				lblIcon = new JLabel(image);
+				lblIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
+				panelLogo.add(lblIcon);
+				
+			}
+		});
 		
 		JPanel panelButtons = new JPanel();
-		panelButtons.setBackground(new Color(247, 247, 247));
+		panelButtons.setBackground(background);
 		panelActionContainer.add(panelButtons);
 		panelButtons.setLayout(new BoxLayout(panelButtons, BoxLayout.Y_AXIS));
 		
@@ -167,9 +181,9 @@ public class ViewLaunch extends JFrame {
 			
 		});
 		panelButtons.add(btn_new);
-		btn_new.setPreferredSize(new Dimension(220, 30));
-		btn_new.setMinimumSize(new Dimension(220, 30));
-		btn_new.setMaximumSize(new Dimension(220, 30));
+		btn_new.setPreferredSize(button);
+		btn_new.setMinimumSize(button);
+		btn_new.setMaximumSize(button);
 		
 		Component rigidArea_1 = Box.createRigidArea(new Dimension(10, 10));
 		panelButtons.add(rigidArea_1);
@@ -182,11 +196,12 @@ public class ViewLaunch extends JFrame {
 			
 		});
 		panelButtons.add(btn_existing);
-		btn_existing.setPreferredSize(new Dimension(220, 30));
-		btn_existing.setMinimumSize(new Dimension(220, 30));
-		btn_existing.setMaximumSize(new Dimension(220, 30));
+		btn_existing.setPreferredSize(button);
+		btn_existing.setMinimumSize(button);
+		btn_existing.setMaximumSize(button);
 		
 		setLocationRelativeTo(null);
+		setVisible(true);
 	}
 
 }

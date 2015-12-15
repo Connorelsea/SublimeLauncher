@@ -12,10 +12,22 @@ public class Program {
 	
 	public Program() {
 		
+		long timeStart = System.currentTimeMillis();
+		
+		System.out.println("PROGRAM: Running program");
+		
+		System.out.println("PROGRAM: Creating sublime container");
+		
 		sublimes = new SublimeContainer();
 		sublimes.findSublime();
 		
+		System.out.println("PROGRAM: Creating project container");
+		
 		projects = new ProjectContainer();
+		
+		long timeFileSystem = System.currentTimeMillis();
+		
+		System.out.println("PROGRAM: Loading file system");
 		
 		fileSystem = FileSystem.createInstance(sublimes, projects);
 		
@@ -23,7 +35,17 @@ public class Program {
 			System.err.println("Unable to load Sublime Launcher");
 		}
 		
-		new ViewLaunch(projects, sublimes, fileSystem).setVisible(true);
+		System.out.println("PROGRAM: Creating new ViewLaunch");
+		
+		long timeViewLaunch = System.currentTimeMillis();
+		
+		new ViewLaunch(projects, sublimes, fileSystem);
+		
+		long timeAfterViewLaunch = System.currentTimeMillis();
+		
+		System.out.println("Took " + (timeFileSystem - timeStart) + " for Program -> Program Done");
+		System.out.println("Took " + (timeViewLaunch - timeFileSystem) + " for FileSystem -> FileSystem Done");
+		System.out.println("Took " + (timeAfterViewLaunch - timeViewLaunch) + " for ViewLaunch -> ViewLaunch Done");
 		
 //		for (Project project : projects) {
 //			System.out.println(project.getLocation().toString());
