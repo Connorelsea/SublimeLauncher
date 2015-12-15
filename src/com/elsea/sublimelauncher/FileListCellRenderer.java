@@ -16,6 +16,7 @@ public class FileListCellRenderer implements ListCellRenderer {
 	) {
 		
 		Project project = (Project) value;
+		project.processUIState(selected);
 		return project.getPanel();
 	}
 

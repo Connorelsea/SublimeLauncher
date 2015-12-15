@@ -3,6 +3,7 @@ package com.elsea.sublimelauncher;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -26,6 +27,15 @@ public class Project {
 	private boolean       hasIcon;
 	
 	private JPanel panel;
+	private JPanel panelTitle;
+	private JPanel panelLeft;
+	private JPanel panelIcon;
+	private JPanel panelPadding;
+	
+	private boolean selected = false;
+	
+	private Color background = new Color(234, 241, 251);
+	private Color selection  = new Color(207, 220, 241);
 	
 	public Project(String name, String path, String iconPath) {
 		
@@ -55,13 +65,41 @@ public class Project {
 		
 	}
 	
+	public void processUIState(boolean selected) {
+		
+		if (this.selected != selected) {
+			
+			if (selected == false) {
+				
+				panelTitle.setBackground(background);
+				if (!hasIcon()) panelPadding.setBackground(background);
+				if (hasIcon())  panelIcon.setBackground(background);
+				
+				this.selected = false;
+				
+			} else {
+				
+				panelTitle.setBackground(selection);
+				if (!hasIcon()) panelPadding.setBackground(selection);
+				if (hasIcon())  panelIcon.setBackground(selection);
+				
+				this.selected = true;
+			}
+			
+		}
+		
+	}
+	
 	public JPanel getPanel() {
 		
 		if (panel == null) {
 			
 			Dimension container  = new Dimension(300, 60);
-			Color     background = new Color(234, 241, 251);
+			Dimension padding    = new Dimension(15 , 60);
 			Color     foreground = new Color(25, 50, 95);
+			Font      large      = new Font("Sans Serif", Font.PLAIN, 17);
+			
+			// Container panel
 			
 			panel = new JPanel();
 			panel.setLayout(new BorderLayout());
@@ -70,7 +108,9 @@ public class Project {
 			panel.setMinimumSize(container);
 			panel.setMaximumSize(container);
 			
-			JPanel panelTitle = new JPanel();
+			// Panel Title
+			
+			panelTitle = new JPanel();
 			panelTitle.setBackground(background);
 			panelTitle.setLayout(new BoxLayout(panelTitle, BoxLayout.Y_AXIS));
 			
@@ -78,25 +118,37 @@ public class Project {
 			JLabel labelPath = new JLabel(getLocation().getAbsolutePath());
 			
 			labelName.setForeground(foreground);
+			labelName.setFont(large);
 			labelPath.setForeground(foreground);
 			
+			panelTitle.add(Box.createRigidArea(new Dimension(10, 10)));
 			panelTitle.add(labelName);
 			panelTitle.add(labelPath);
 			
 			panel.add(panelTitle, BorderLayout.CENTER);
 			
+			// Left Panel
+			
+			panelLeft = new JPanel();
+			panelLeft.setLayout(new BorderLayout());
+			
+			// Icon Panel
+			
 			if (hasIcon()) {
 				
 				Dimension dimIcon = new Dimension(60, 60);
 				
-				JPanel panelIcon = new JPanel() {
+				panelIcon = new JPanel() {
 					
 					public void paint(Graphics g) {
+						
+						super.paint(g);
 						Graphics2D g2d = (Graphics2D) g;
 						
 						int x = (60 / 2) - (50 / 2);
 						int y = (60 / 2) - (50 / 2);
 						g.drawImage(getBufferedIcon(), x, y, 50, 50, null);
+						
 					}
 					
 				};
@@ -106,8 +158,25 @@ public class Project {
 				panelIcon.setMinimumSize(dimIcon);
 				panelIcon.setMaximumSize(dimIcon);
 				
-				panel.add(panelIcon, BorderLayout.WEST);
+				panelLeft.add(panelIcon, BorderLayout.CENTER);
+				
+			} else {
+				
+				// Padding Panel
+				
+				panelPadding = new JPanel();
+				panelPadding.setBackground(background);
+				panelPadding.setPreferredSize(padding);
+				panelPadding.setMinimumSize(padding);
+				panelPadding.setMaximumSize(padding);
+				
+				panelLeft.add(panelPadding, BorderLayout.EAST);	
+				
 			}
+			
+			// Adding Panel Left to Panel Container
+			
+			panel.add(panelLeft, BorderLayout.WEST);
 			
 		}
 		
