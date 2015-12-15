@@ -1,5 +1,8 @@
 package com.elsea.sublimelauncher;
 
+import java.awt.EventQueue;
+import java.lang.reflect.InvocationTargetException;
+
 public class Program {
 	
 	private ProjectContainer projects;
@@ -35,17 +38,19 @@ public class Program {
 			System.err.println("Unable to load Sublime Launcher");
 		}
 		
-		System.out.println("PROGRAM: Creating new ViewLaunch");
-		
 		long timeViewLaunch = System.currentTimeMillis();
 		
-		new ViewLaunch(projects, sublimes, fileSystem);
+		System.out.println("PROGRAM: Creating new ViewLaunch");
 		
-		long timeAfterViewLaunch = System.currentTimeMillis();
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				ViewLaunch view = new ViewLaunch(projects, sublimes, fileSystem);
+				view.setVisible(true);
+			}
+		});
 		
 		System.out.println("Took " + (timeFileSystem - timeStart) + " for Program -> Program Done");
 		System.out.println("Took " + (timeViewLaunch - timeFileSystem) + " for FileSystem -> FileSystem Done");
-		System.out.println("Took " + (timeAfterViewLaunch - timeViewLaunch) + " for ViewLaunch -> ViewLaunch Done");
 		
 //		for (Project project : projects) {
 //			System.out.println(project.getLocation().toString());

@@ -55,6 +55,8 @@ public class ViewLaunch extends JFrame {
 	
 	public ViewLaunch(ProjectContainer projects, SublimeContainer sublimes, FileSystem fileSystem) {
 	
+		long timeViewLaunch = System.currentTimeMillis();
+	
 		this.projects   = projects;
 		this.sublimes   = sublimes;
 		this.fileSystem = fileSystem;
@@ -175,9 +177,14 @@ public class ViewLaunch extends JFrame {
 		
 		JButton btn_new = new JButton("Create New Project");
 		btn_new.addActionListener(action -> {
-			
-			ViewAddNew van = new ViewAddNew(projects);
-			van.setVisible(true);
+		
+			EventQueue.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					ViewAddNew van = new ViewAddNew(projects);
+					van.setVisible(true);
+				}
+			});
 			
 		});
 		panelButtons.add(btn_new);
@@ -190,9 +197,14 @@ public class ViewLaunch extends JFrame {
 		
 		JButton btn_existing = new JButton("Add Existing Project");
 		btn_existing.addActionListener(action -> {
-			
-			ViewAddExisting vae = new ViewAddExisting(projects);
-			vae.setVisible(true);
+		
+			EventQueue.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					ViewAddExisting vae = new ViewAddExisting(projects);
+					vae.setVisible(true);
+				}
+			});
 			
 		});
 		panelButtons.add(btn_existing);
@@ -201,7 +213,9 @@ public class ViewLaunch extends JFrame {
 		btn_existing.setMaximumSize(button);
 		
 		setLocationRelativeTo(null);
-		setVisible(true);
+		
+		long timeAfterViewLaunch = System.currentTimeMillis();
+		System.out.println("Took " + (timeAfterViewLaunch - timeViewLaunch) + " for ViewLaunch -> ViewLaunch Done");
 	}
 
 }

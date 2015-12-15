@@ -22,8 +22,6 @@ public class ProjectContainer {
 		
 		for (Project project : projects) {
 			
-			System.out.println("Generate Group: " + project.getLocation().getAbsolutePath());
-			
 			String name     = project.getName();
 			String property = project.getLocation().getAbsolutePath() + "#<#>#";
 			
@@ -39,8 +37,6 @@ public class ProjectContainer {
 	}
 	
 	public void add(Project p) {
-		
-		System.out.println("Adding project " + p.getName());
 		
 		projects.add(p);
 		model.addElement(p);

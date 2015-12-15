@@ -39,14 +39,14 @@ public class Project {
 	
 	public Project(String name, String path, String iconPath) {
 		
-		this.setName(name);
-		this.setLocation(new File(path));
+		this.name = name;
+		this.location = new File(path);
 		
 		if (iconPath.equals("None")) {
 			hasIcon = false;
 		} else {
 			hasIcon = true;
-			this.setIcon(new File(iconPath));
+			icon = new File(iconPath);
 			loadIcon();
 		}
 		

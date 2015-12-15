@@ -37,7 +37,6 @@ public class FileSystem {
 	}
 	
 	public void determinePath() {
-		System.out.println("Determining Operating System");
 		
 		String os   = System.getProperty("os.name").toLowerCase();
 		String user = System.getProperty("user.name");
@@ -54,7 +53,6 @@ public class FileSystem {
 	}
 	
 	public void checkFixPath() {
-		System.out.println("Checking Stone data file");
 		
 		if (!programLocation.exists() || !stoneFile.exists()) {
 			
@@ -96,6 +94,7 @@ public class FileSystem {
 	
 	public boolean load() {
 		
+		long loadStart = System.currentTimeMillis();
 		System.out.println("Loading program file system");
 		
 		determinePath();
@@ -103,17 +102,22 @@ public class FileSystem {
 		
 		// Load projects
 		
+		long stoneStart = System.currentTimeMillis();
+		
 		Group g = Groups.get().read(stoneFile);
 		
-		System.out.println("Filtering Stone projects");
+		long stoneEnd = System.currentTimeMillis();
+		
+		System.out.println("Took " + (stoneEnd - stoneStart) + "ms to read Stone file from disk.");
 		
 		List<Element> elements = g.search().filter(p -> 
 			p.getParent() != null && p.getParent().getName().equals("projects")
 		);
-		
-		System.out.println("Processing Stone projects");
+
 		
 		for (Element e : elements) {
+			
+			long newProjStart = System.currentTimeMillis();
 			
 			String   name  = e.getName();
 			String[] props = e.getCurrentValue().split("#<#>#");
@@ -121,19 +125,22 @@ public class FileSystem {
 			String   icon  = props[1];
 			
 			projects.add(new Project(name, path, icon));
+			
+			long newProjEnd = System.currentTimeMillis();
+			
+			System.out.println("PROJECT: \"" +  name + "\" took " + (newProjEnd - newProjStart) + "ms");
 		}
-		
-		System.out.println("Filtering Stone sublimes");
 		
 		List<Element> sbls = g.search().filter(p ->
 			p.getParent() != null && p.getParent().getName().equals("sublimes")
 		);
 		
-		System.out.println("Processing Stone sublimes");
-		
 		for (Element e : sbls) {
 			sublimes.addLocation(new File(e.getCurrentValue()));
 		}
+		
+		long loadEnd = System.currentTimeMillis();
+		System.out.println("Took " + (loadEnd - loadStart) + " for fileSystem.load()");
 		
 		return true;
 	}
