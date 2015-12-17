@@ -1,5 +1,5 @@
 #Sublime Launcher
-##### [Download Latest Release (Sublime Launcher 1.0)](https://github.com/Connorelsea/SublimeLauncher/releases/download/v1.1.0/SublimeLauncher.exe)
+##### [Download Latest Release (Sublime Launcher 1.1.2)](https://github.com/Connorelsea/SublimeLauncher/releases/download/v1.1.2/SublimeLauncher.exe)
 
 ### A multi-platform, fully-featured, project launcher for Sublime Text
 
@@ -11,6 +11,8 @@ Programs like Eclipse, IntelliJ, WebStorm, and other IDEs have convienient proje
 - Create your own templates easily
 - Sublime Launcher adds absolutely no metadata/files in the project directory
 
+Pin to your taskbar, start menu, or dock to use easily.
+
 For this to work you must add the following to your Sublime User Settings.
 
     "remember_open_files": false,
@@ -20,8 +22,8 @@ For this to work you must add the following to your Sublime User Settings.
 
 ## Build
 
-Current build: 1.0
-Download: [Download Sublime Launcher 1.0](https://github.com/Connorelsea/SublimeLauncher/releases/download/v1.1.0/SublimeLauncher.exe) [(Windows)](https://github.com/Connorelsea/SublimeLauncher/releases/download/v1.1.0/SublimeLauncher.exe)
+Current build: 1.1.2
+Download: [Download Sublime Launcher 1.0](https://github.com/Connorelsea/SublimeLauncher/releases/download/v1.1.2/SublimeLauncher.exe) [(Windows)](https://github.com/Connorelsea/SublimeLauncher/releases/download/v1.1.2/SublimeLauncher.exe)
 
 ## Contributing
 

@@ -48,8 +48,19 @@ public class FileSystem {
 			stoneFile        = new File(programLocation.getAbsolutePath() + "\\program.stone");
 			sublimeImage     = new File(programLocation.getAbsolutePath() + File.separator + "sublime.png");
 			
+		} else if (os.contains("osx") || os.contains("mac")) {
+			
+			programLocation  = new File("/Library/Elsea/SublimeLauncher");
+			templateLocation = new File(programLocation.getAbsolutePath() + "/Templates");
+			stoneFile        = new File(programLocation.getAbsolutePath() + "/program.stone");
+			sublimeImage     = new File(programLocation.getAbsolutePath() + File.separator + "sublime.png");
+			
 		} else {
-			System.out.println("Running on currently unsupported system.");
+			
+			programLocation  = new File(System.getProperty("user.dir") + "/Elsea/SublimeLauncher");
+			templateLocation = new File(programLocation.getAbsolutePath() + "/Templates");
+			stoneFile        = new File(programLocation.getAbsolutePath() + "/program.stone");
+			sublimeImage     = new File(programLocation.getAbsolutePath() + File.separator + "sublime.png");
 		}
 	}
 	
