@@ -113,17 +113,9 @@ public class FileSystem {
 		
 		if (stoneFile.exists()) {
 			
-			long stoneStart = System.currentTimeMillis();
-			
 			Group g = Groups.get().read(stoneFile);
 			
-			long stoneEnd = System.currentTimeMillis();
-			
-			System.out.println("Took " + (stoneEnd - stoneStart) + "ms to read Stone file from disk.");
-			
-			List<Element> elements = g.search().filter(p -> 
-				p.getParent() != null && p.getParent().getName().equals("projects")
-			);
+			List<Element> elements = g.search().group("projects").getChildren();
 
 			
 			for (Element e : elements) {
@@ -142,9 +134,7 @@ public class FileSystem {
 				System.out.println("PROJECT: \"" +  name + "\" took " + (newProjEnd - newProjStart) + "ms");
 			}
 			
-			List<Element> sbls = g.search().filter(p ->
-				p.getParent() != null && p.getParent().getName().equals("sublimes")
-			);
+			List<Element> sbls = g.search().group("sublimes").getChildren();
 			
 			for (Element e : sbls) {
 				sublimes.addLocation(new File(e.getCurrentValue()));

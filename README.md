@@ -1,5 +1,5 @@
 #Sublime Launcher
-##### [Download Latest Release (Sublime Launcher 1.0)](https://github.com/Connorelsea/SublimeLauncher/releases/download/v1.0/SublimeLauncher.jar)
+##### [Download Latest Release (Sublime Launcher 1.0)](https://github.com/Connorelsea/SublimeLauncher/releases/download/v1.1.0/SublimeLauncher.exe)
 
 ### A multi-platform, fully-featured, project launcher for Sublime Text
 
@@ -16,12 +16,12 @@ For this to work you must add the following to your Sublime User Settings.
     "remember_open_files": false,
     "hot_exit": false
 
-![Sublime Launcher Main Window Picture](http://i.imgur.com/FB5TuOb.png)
+![Sublime Launcher Main Window Picture](http://i.imgur.com/ufavMqh.png)
 
 ## Build
 
 Current build: 1.0
-Download: [Download Sublime Launcher 1.0](https://github.com/Connorelsea/SublimeLauncher/releases/download/v1.0/SublimeLauncher.jar) [(JAR)](https://github.com/Connorelsea/SublimeLauncher/releases/download/v1.0/SublimeLauncher.jar)
+Download: [Download Sublime Launcher 1.0](https://github.com/Connorelsea/SublimeLauncher/releases/download/v1.1.0/SublimeLauncher.exe) [(Windows)](https://github.com/Connorelsea/SublimeLauncher/releases/download/v1.1.0/SublimeLauncher.exe)
 
 ## Contributing
 
