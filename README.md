@@ -1,5 +1,5 @@
 #Sublime Launcher
-##### [Download Latest Release (Sublime Launcher 1.1.2)](https://github.com/Connorelsea/SublimeLauncher/releases/download/v1.1.2/SublimeLauncher.exe)
+##### [Download Latest Release (Sublime Launcher 1.1.2)](https://github.com/Connorelsea/SublimeLauncher/releases/download/v1.1.2)
 
 ### A multi-platform, fully-featured, project launcher for Sublime Text
 
@@ -23,7 +23,7 @@ For this to work you must add the following to your Sublime User Settings.
 ## Build
 
 Current build: 1.1.2
-Download: [Download Sublime Launcher 1.0](https://github.com/Connorelsea/SublimeLauncher/releases/download/v1.1.2/SublimeLauncher.exe) [(Windows)](https://github.com/Connorelsea/SublimeLauncher/releases/download/v1.1.2/SublimeLauncher.exe)
+Download: [Download Sublime Launcher 1.0](https://github.com/Connorelsea/SublimeLauncher/releases/download/v1.1.2)
 
 ## Contributing
 
